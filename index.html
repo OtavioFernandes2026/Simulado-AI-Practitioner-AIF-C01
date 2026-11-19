@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulado AWS Certified AI Practitioner (AIF-C01) – Otavio Fernandes</title>
+<style>
+:root{--bg:#fff;--fg:#1a1f2b;--mut:#5b6575;--card:#f3f5f9;--ac:#ff9900;--ok:#1a7f37;--bad:#c62828;--bd:#d6dbe4}
+@media(prefers-color-scheme:dark){:root{--bg:#10141b;--fg:#e8ebf0;--mut:#9aa5b5;--card:#1a212c;--bd:#2b3544;--ok:#4cc16f;--bad:#ff7b72}}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--fg);line-height:1.5}
+main{max-width:760px;margin:0 auto;padding:20px 16px 200px}
+h1{font-size:1.5rem;margin:.2em 0}h2{font-size:1.2rem}
+.mut{color:var(--mut);font-size:.9rem}
+.top{display:flex;justify-content:space-between;margin-bottom:12px;color:var(--mut)}
+.q{font-size:1.05rem;font-weight:600;margin:12px 0}
+.opt{display:block;padding:12px;margin:8px 0;background:var(--card);border:1px solid var(--bd);border-radius:10px;cursor:pointer}
+.opt.sel{border-color:var(--ac);outline:2px solid var(--ac)}
+.nav{display:flex;gap:10px;margin-top:18px}
+button{padding:10px 18px;border-radius:8px;border:1px solid var(--bd);background:var(--card);color:var(--fg);font-size:1rem;cursor:pointer}
+button.pri{background:var(--ac);border-color:var(--ac);color:#111;font-weight:600}
+button:disabled{opacity:.4;cursor:default}
+.score{font-size:3rem;font-weight:700;margin:0}
+.ok{color:var(--ok)}.bad{color:var(--bad)}
+table{width:100%;border-collapse:collapse;margin:12px 0}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd);font-size:.92rem}
+.rev{background:var(--card);border-radius:10px;padding:12px;margin:10px 0;font-size:.92rem}
+.pix{position:fixed;right:12px;bottom:12px;z-index:99;width:150px;padding:8px;text-align:center;background:#fff;color:#111;border:2px solid var(--ac);border-radius:12px;box-shadow:0 2px 10px rgba(0,0,0,.3);font-size:.72rem}
+.pix img{width:130px;height:130px;display:block;margin:0 auto 4px}
+footer{margin-top:30px}
+form label{display:block;margin:10px 0 4px;font-weight:600;font-size:.92rem}
+input[type=text],input[type=email],input[type=tel]{width:100%;padding:10px;border:1px solid var(--bd);border-radius:8px;background:var(--card);color:var(--fg);font-size:1rem}
+.chk{display:flex;gap:8px;align-items:flex-start;margin:14px 0;font-weight:400!important}
+</style>
+</head>
+<body>
+<main>
+  <div id="app"></div>
+  <footer class="mut">Simulado criado por <b>Otavio Fernandes</b>. Material de estudo não oficial, sem vínculo com a AWS. As questões são originais e seguem o estilo da prova AIF-C01.</footer>
+</main>
+
+<!-- QR Code PIX fixo: coloque o arquivo pix-qrcode.png na mesma pasta deste index.html -->
+<aside class="pix">
+  <img src="pix-qrcode.png" alt="QR Code PIX" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'Adicione o arquivo pix-qrcode.png',style:'padding:30px 4px'}))">
+  <span>Gostou? Contribua via PIX ☕</span>
+</aside>
+
+<script>
+const D={1:"Fundamentos de IA e ML (20%)",2:"Fundamentos de IA Generativa (24%)",3:"Aplicações de Modelos de Fundação (28%)",4:"Diretrizes para IA Responsável (14%)",5:"Segurança, Conformidade e Governança (14%)"};
+const MIN=70, MINUTOS=90;
+const BANK=[
+{d:1,q:"Uma empresa quer prever o cancelamento de clientes (churn) usando dados históricos em que cada cliente já está marcado como “cancelou” ou “permaneceu”. Qual tipo de aprendizado de máquina atende a esse requisito?",o:["Aprendizado não supervisionado","Aprendizado supervisionado","Aprendizado por reforço","Aprendizado de máquina baseado em regras"],a:1},
+{d:1,q:"Uma varejista deseja segmentar clientes em grupos com comportamento de compra semelhante, sem dados rotulados. Qual técnica deve ser usada?",o:["Regressão linear","Classificação binária","Clusterização","Árvore de decisão supervisionada"],a:2},
+{d:1,q:"Um modelo apresenta ótimo desempenho nos dados de treinamento, mas desempenho ruim em dados novos. Qual é o problema mais provável?",o:["Overfitting","Underfitting","Vazamento de rótulos inverso","Falta de GPUs"],a:0},
+{d:1,q:"Qual serviço da AWS permite criar, treinar e implantar modelos de ML com infraestrutura totalmente gerenciada?",o:["Amazon Comprehend","Amazon Rekognition","Amazon Polly","Amazon SageMaker"],a:3},
+{d:1,q:"Uma empresa precisa extrair texto, formulários e tabelas de documentos digitalizados com o MENOR esforço de desenvolvimento. Qual serviço deve usar?",o:["Amazon Rekognition","Amazon Textract","Amazon Transcribe","Amazon Lex"],a:1},
+{d:1,q:"Qual métrica é a mais adequada para avaliar um modelo de regressão que prevê preços de imóveis?",o:["Acurácia","F1-score","RMSE","AUC-ROC"],a:2},
+{d:2,q:"No contexto de modelos de linguagem de grande porte (LLMs), o que é um token?",o:["Uma unidade de texto (palavra ou parte dela) processada pelo modelo","Uma chave de autenticação para chamar a API","Um parâmetro treinável do modelo","Um conjunto de dados de avaliação"],a:0},
+{d:2,q:"Qual parâmetro de inferência controla o grau de aleatoriedade das respostas geradas por um LLM?",o:["Max tokens","Temperatura","Stop sequences","Tamanho do lote (batch size)"],a:1},
+{d:2,q:"Qual arquitetura de rede neural é a base da maioria dos modelos de linguagem generativos atuais?",o:["Redes convolucionais (CNN)","Redes recorrentes simples (RNN)","Árvores de decisão em conjunto","Transformer"],a:3},
+{d:2,q:"O que significa “alucinação” em modelos de IA generativa?",o:["O modelo gera informações plausíveis, porém incorretas ou inventadas","O modelo se recusa a responder","O modelo repete o prompt do usuário","O modelo consome mais tokens que o limite"],a:0},
+{d:2,q:"O que são embeddings em IA generativa?",o:["Regras de segurança incorporadas ao modelo","Compressão de arquivos de treinamento","Representações vetoriais numéricas que capturam o significado semântico de textos ou imagens","Logs de inferência armazenados no Amazon S3"],a:2},
+{d:2,q:"Qual é uma vantagem típica dos modelos de fundação (foundation models)?",o:["Só funcionam para uma tarefa específica","São pré-treinados em grandes volumes de dados e podem ser adaptados a muitas tarefas","Dispensam qualquer tipo de avaliação","Não exigem recursos computacionais"],a:1},
+{d:2,q:"O que é a janela de contexto de um LLM?",o:["O tempo máximo de resposta da API","O número de usuários simultâneos suportados","A quantidade de dados usados no treinamento","A quantidade máxima de tokens que o modelo consegue processar em uma única requisição"],a:3},
+{d:3,q:"Uma empresa quer acessar diversos modelos de fundação de diferentes provedores por meio de uma única API, sem gerenciar infraestrutura. Qual serviço atende a esse requisito?",o:["Amazon Bedrock","AWS Glue","Amazon Kinesis","AWS Direct Connect"],a:0},
+{d:3,q:"Uma empresa quer que um chatbot responda com base em documentos internos atualizados, reduzindo alucinações e SEM retreinar o modelo. Qual abordagem é a mais indicada?",o:["Treinar um novo modelo do zero","Aumentar a temperatura do modelo","Usar Retrieval Augmented Generation (RAG), por exemplo com Knowledge Bases for Amazon Bedrock","Reduzir o max tokens"],a:2},
+{d:3,q:"Uma empresa possui milhares de exemplos rotulados do seu domínio e quer especializar um modelo de fundação para sua tarefa. Qual técnica deve ser usada?",o:["Engenharia de prompt zero-shot","Fine-tuning","Aumento da janela de contexto","Quantização do modelo"],a:1},
+{d:3,q:"Qual serviço da AWS pode atuar como banco de dados vetorial para armazenar embeddings em uma solução RAG?",o:["Amazon Redshift Spectrum","Amazon Athena","Amazon QuickSight","Amazon OpenSearch Service"],a:3},
+{d:3,q:"Um desenvolvedor inclui no prompt três exemplos de entrada e saída esperadas antes de fazer a pergunta ao modelo. Qual técnica de engenharia de prompt está sendo usada?",o:["Few-shot prompting","Chain-of-thought zero-shot","Prompt negativo","Fine-tuning contínuo"],a:0},
+{d:3,q:"Uma empresa quer um assistente de IA que execute tarefas de várias etapas, chamando APIs internas para concluir pedidos de clientes. Qual recurso deve usar?",o:["Amazon Polly","Amazon Translate","Agents for Amazon Bedrock","AWS Artifact"],a:2},
+{d:3,q:"Qual métrica é comumente usada para avaliar a qualidade de resumos gerados automaticamente, comparando-os com resumos de referência?",o:["BLEU","ROUGE","Acurácia","RMSE"],a:1},
+{d:3,q:"Qual serviço é um assistente de IA generativa da AWS que ajuda desenvolvedores a escrever, explicar e depurar código?",o:["Amazon Lex","Amazon Polly","Amazon Translate","Amazon Q Developer"],a:3},
+{d:3,q:"Uma equipe quer melhorar a qualidade das respostas de um LLM com o MENOR custo e esforço, antes de considerar treinamento adicional. O que deve fazer primeiro?",o:["Realizar fine-tuning com milhares de exemplos","Pré-treinar um novo modelo","Refinar e estruturar melhor os prompts (engenharia de prompt)","Migrar para instâncias com mais GPUs"],a:2},
+{d:4,q:"Uma empresa quer detectar possíveis vieses nos dados e nas previsões de seus modelos e entender quais atributos influenciam os resultados. Qual serviço deve usar?",o:["Amazon Inspector","Amazon SageMaker Clarify","AWS Config","Amazon Macie"],a:1},
+{d:4,q:"Qual princípio de IA responsável se refere à capacidade de entender e comunicar por que um modelo chegou a determinada previsão?",o:["Robustez","Privacidade","Escalabilidade","Explicabilidade"],a:3},
+{d:4,q:"Uma empresa precisa impedir que um aplicativo de IA generativa responda sobre tópicos proibidos e gere conteúdo nocivo. Qual recurso é o mais adequado?",o:["Guardrails for Amazon Bedrock","AWS WAF","Amazon CloudFront","AWS Backup"],a:0},
+{d:4,q:"Uma empresa quer que revisores humanos avaliem previsões de ML com baixo nível de confiança. Qual serviço facilita esse fluxo?",o:["AWS Step Functions","Amazon Rekognition","Amazon Augmented AI (Amazon A2I)","Amazon SQS"],a:2},
+{d:5,q:"De acordo com o modelo de responsabilidade compartilhada da AWS, quem é responsável por proteger os dados de treinamento e controlar quem tem acesso a eles?",o:["A AWS","O cliente","Ambos igualmente, incluindo o hardware","Nenhum dos dois"],a:1},
+{d:5,q:"Uma empresa precisa descobrir automaticamente dados pessoais (PII) armazenados no Amazon S3 antes de usá-los no treinamento de um modelo. Qual serviço deve usar?",o:["AWS Shield","Amazon GuardDuty","Amazon Macie","AWS Certificate Manager"],a:2},
+{d:5,q:"Qual serviço registra as chamadas de API feitas na conta AWS, incluindo ações de IA/ML, para fins de auditoria?",o:["AWS CloudTrail","Amazon CloudWatch Logs Insights apenas","AWS Trusted Advisor","Amazon Route 53"],a:0},
+{d:5,q:"Uma empresa precisa baixar, sob demanda, relatórios de conformidade e certificações da AWS (como SOC e ISO) para uma auditoria. Qual serviço deve usar?",o:["AWS Audit Manager","AWS Artifact","AWS Organizations","Amazon Detective"],a:1},
+{d:1,q:"Qual afirmação descreve corretamente a relação entre IA, aprendizado de máquina (ML) e deep learning?",o:["Deep learning é um subconjunto de ML, que por sua vez é um subconjunto de IA","ML é um subconjunto de deep learning","IA é um subconjunto de ML","São termos sem nenhuma relação entre si"],a:0},
+{d:1,q:"Uma empresa precisa identificar objetos, pessoas e textos em imagens e vídeos sem criar modelos próprios. Qual serviço deve usar?",o:["Amazon Rekognition","Amazon Polly","Amazon Lex","Amazon Translate"],a:0},
+{d:1,q:"Uma empresa quer analisar o sentimento (positivo, negativo, neutro) de milhares de avaliações de clientes em texto. Qual serviço atende a esse requisito?",o:["Amazon Comprehend","Amazon Textract","Amazon Transcribe","Amazon Personalize"],a:0},
+{d:1,q:"Qual é o objetivo de dividir os dados em conjuntos de treinamento, validação e teste?",o:["Avaliar se o modelo generaliza para dados que ele não viu","Aumentar o número de atributos (features)","Reduzir o custo de armazenamento","Eliminar a necessidade de rótulos"],a:0},
+{d:1,q:"Uma central de atendimento quer converter gravações de chamadas em texto. Qual serviço deve usar?",o:["Amazon Transcribe","Amazon Polly","Amazon Translate","Amazon Lex"],a:0},
+{d:1,q:"Uma loja online quer oferecer recomendações personalizadas de produtos a cada cliente com o MENOR esforço de ML. Qual serviço deve usar?",o:["Amazon Personalize","Amazon Macie","AWS Glue DataBrew","Amazon Inspector"],a:0},
+{d:2,q:"O que é engenharia de prompt?",o:["Elaborar e refinar as instruções de entrada para obter melhores respostas do modelo","Treinar um modelo do zero com novos dados","Compactar o modelo para reduzir custos","Criptografar as requisições enviadas ao modelo"],a:0},
+{d:2,q:"Qual parâmetro limita a amostragem aos tokens cuja probabilidade acumulada atinge um limite, controlando a diversidade das respostas?",o:["Top-p","Max tokens","Stop sequences","Tamanho do lote"],a:0},
+{d:2,q:"O que caracteriza um modelo de fundação multimodal?",o:["Processa ou gera mais de um tipo de dado, como texto, imagem e áudio","Só aceita texto em vários idiomas","Executa em várias regiões da AWS ao mesmo tempo","Usa vários provedores de nuvem"],a:0},
+{d:2,q:"Qual tipo de modelo gera imagens partindo de ruído aleatório que é removido gradualmente?",o:["Modelo de difusão","Árvore de decisão","Regressão logística","K-means"],a:0},
+{d:2,q:"Um usuário pede a um LLM para classificar um texto sem fornecer nenhum exemplo no prompt. Qual técnica está sendo usada?",o:["Zero-shot prompting","Few-shot prompting","Fine-tuning","RAG"],a:0},
+{d:2,q:"Qual é uma limitação comum dos LLMs?",o:["O conhecimento é limitado à data de corte dos dados de treinamento","Não conseguem processar texto em português","Só funcionam com dados rotulados","Não aceitam instruções em linguagem natural"],a:0},
+{d:2,q:"O que é chain-of-thought prompting?",o:["Instruir o modelo a raciocinar passo a passo antes de dar a resposta final","Encadear vários modelos em sequência na mesma região","Criptografar o prompt em etapas","Reduzir a temperatura a zero"],a:0},
+{d:3,q:"Em uma solução RAG com Knowledge Bases for Amazon Bedrock, onde normalmente ficam armazenados os documentos-fonte?",o:["Amazon S3","AWS Direct Connect","Amazon Route 53","AWS Shield"],a:0},
+{d:3,q:"Qual recurso oferece modelos pré-treinados e soluções prontas que podem ser implantadas com poucos cliques no Amazon SageMaker?",o:["Amazon SageMaker JumpStart","Amazon SageMaker Ground Truth","AWS Trusted Advisor","Amazon Cognito"],a:0},
+{d:3,q:"Uma empresa quer um serviço de busca inteligente que responda em linguagem natural usando documentos corporativos. Qual serviço é o mais indicado?",o:["Amazon Kendra","Amazon Polly","AWS Batch","Amazon Lightsail"],a:0},
+{d:3,q:"Qual técnica adapta um modelo de fundação a um domínio usando grandes volumes de dados NÃO rotulados?",o:["Pré-treinamento contínuo (continued pre-training)","Few-shot prompting","Ajuste de temperatura","Guardrails"],a:0},
+{d:3,q:"Uma empresa quer criar um chatbot com voz e texto que reconheça intenções do usuário. Qual serviço deve usar?",o:["Amazon Lex","Amazon Textract","AWS Glue","Amazon Athena"],a:0},
+{d:3,q:"Uma empresa quer um assistente de IA generativa para funcionários, conectado a fontes de dados corporativas, sem escrever código. Qual serviço atende a esse requisito?",o:["Amazon Q Business","Amazon Q Developer","AWS CodeBuild","Amazon Rekognition"],a:0},
+{d:3,q:"Qual métrica é comumente usada para avaliar a qualidade de traduções automáticas?",o:["BLEU","RMSE","Matriz de confusão","Silhouette score"],a:0},
+{d:3,q:"Qual opção do Amazon Bedrock garante capacidade dedicada de inferência para cargas de trabalho constantes e de alto volume?",o:["Provisioned Throughput","Model evaluation","Playgrounds","Guardrails"],a:0},
+{d:4,q:"Um modelo de crédito aprova menos candidatos de um grupo demográfico, mesmo com perfis financeiros semelhantes. Qual princípio de IA responsável está sendo violado?",o:["Equidade (fairness)","Disponibilidade","Escalabilidade","Latência"],a:0},
+{d:4,q:"Qual recurso do Amazon SageMaker ajuda a documentar finalidade, riscos e desempenho de um modelo?",o:["SageMaker Model Cards","SageMaker Pipelines","SageMaker Canvas","SageMaker Studio Lab"],a:0},
+{d:4,q:"Treinar um modelo com dados que não representam toda a população-alvo causa qual problema?",o:["Viés de amostragem","Aumento da janela de contexto","Redução da temperatura","Perda de tokens"],a:0},
+{d:4,q:"Qual prática melhora a transparência de um sistema de IA perante os usuários?",o:["Informar que o usuário interage com IA e documentar suas limitações","Ocultar as fontes de dados usadas","Desativar o registro de logs","Remover qualquer documentação técnica"],a:0},
+{d:5,q:"Qual prática segue o princípio do menor privilégio no AWS IAM?",o:["Conceder apenas as permissões estritamente necessárias para cada função","Dar acesso de administrador a toda a equipe","Compartilhar as credenciais do usuário raiz","Usar uma única chave de acesso para todas as aplicações"],a:0},
+{d:5,q:"Qual serviço permite criar e gerenciar chaves de criptografia para proteger dados em repouso, como datasets de treinamento?",o:["AWS KMS","AWS WAF","Amazon Route 53","Amazon SNS"],a:0},
+{d:5,q:"Uma empresa quer acessar o Amazon Bedrock a partir da sua VPC sem enviar tráfego pela internet pública. O que deve usar?",o:["AWS PrivateLink (VPC endpoint)","Internet Gateway","AWS Shield Advanced","Amazon CloudFront"],a:0},
+{d:5,q:"Qual ameaça ocorre quando um usuário insere instruções maliciosas no prompt para fazer o modelo ignorar suas regras?",o:["Prompt injection","Overfitting","Alucinação","Data drift"],a:0},
+{d:5,q:"Qual serviço avalia continuamente as configurações dos recursos AWS quanto à conformidade com regras definidas pela empresa?",o:["AWS Config","Amazon Polly","AWS Batch","Amazon EventBridge Scheduler"],a:0}
+];
+
+let Q=BANK,i=0,A=[],t=0,tm;
+const shuf=a=>{a=a.slice();for(let n=a.length-1;n>0;n--){const j=Math.floor(Math.random()*(n+1));[a[n],a[j]]=[a[j],a[n]]}return a};
+const app=document.getElementById("app");
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+
+function home(){
+  clearInterval(tm);
+  app.innerHTML=`<h1>Simulado AWS Certified AI Practitioner</h1>
+  <p class="mut">Código do exame: AIF-C01 · Autor: Otavio Fernandes</p>
+  <p>${Q.length} questões de múltipla escolha · ${MINUTOS} minutos · aprovação com no mínimo ${MIN}% de acertos.</p>
+  <p class="mut">A ordem das questões e das alternativas muda a cada tentativa. Ao final, você verá sua média geral e o percentual de acertos em cada domínio da prova, indicando o que precisa estudar. Obs.: na prova oficial a nota vai de 100 a 1000 (mínimo 700); aqui usamos porcentagem simples.</p>
+  <h2>Cadastro</h2>
+  <form onsubmit="return reg(event)">
+    <label for="nome">Nome completo *</label>
+    <input type="text" id="nome" name="nome" required minlength="3" autocomplete="name" value="${esc(U.nome)}">
+    <label for="email">E-mail *</label>
+    <input type="email" id="email" name="email" required autocomplete="email" value="${esc(U.email)}">
+    <label for="whats">WhatsApp (opcional)</label>
+    <input type="tel" id="whats" name="whats" autocomplete="tel" placeholder="(11) 90000-0000" value="${esc(U.whats)}">
+    <label class="chk"><input type="checkbox" name="ok" required> <span>Concordo que meu nome, e-mail, WhatsApp e resultado sejam armazenados pelo autor (Otavio Fernandes) para identificação e contato.</span></label>
+    <button class="pri" type="submit">Iniciar simulado</button>
+  </form>`;
+}
+// Cole aqui a URL do seu Google Apps Script (veja o passo a passo). Vazio = não envia nada.
+const SHEET_URL="https://script.google.com/macros/s/AKfycbyHQ6ArJcAUTm6SNik1dPl466ve9Nq4M1LMKsDGorm3tex4s0h9sEyUvKJqpUe2YWs/exec";
+function send(extra){
+  if(!SHEET_URL)return;
+  try{fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({},U,extra))}).catch(()=>{})}catch(e){}
+}
+let U={};
+try{U=JSON.parse(localStorage.getItem("cad")||"{}")}catch(e){}
+function esc(v){return String(v||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;")}
+function reg(e){
+  e.preventDefault();const f=e.target;
+  U={nome:f.nome.value.trim(),email:f.email.value.trim(),whats:f.whats.value.trim()};
+  try{localStorage.setItem("cad",JSON.stringify(U))}catch(x){}
+  send({tipo:"cadastro"});
+  start();return false;
+}
+function start(){
+  Q=shuf(BANK).map(q=>{const p=shuf(q.o.map((_,k)=>k));return{d:q.d,q:q.q,o:p.map(k=>q.o[k]),a:p.indexOf(q.a)}});
+  i=0;A=Array(Q.length).fill(null);t=MINUTOS*60;
+  clearInterval(tm);
+  tm=setInterval(()=>{t--;if(t<=0)finish();else{const e=document.getElementById("tm");if(e)e.textContent=fmt(t)}},1000);
+  render();
+}
+function render(){
+  const q=Q[i];
+  app.innerHTML=`<div class="top"><span>Questão ${i+1} de ${Q.length}</span><b id="tm">${fmt(t)}</b></div>
+  <p class="q">${q.q}</p>`+
+  q.o.map((o,k)=>`<label class="opt${A[i]===k?" sel":""}"><input type="radio" name="o" ${A[i]===k?"checked":""} onchange="A[${i}]=${k};render()"> ${o}</label>`).join("")+
+  `<div class="nav"><button onclick="go(-1)" ${i?"":"disabled"}>Anterior</button>`+
+  (i<Q.length-1?`<button onclick="go(1)">Próxima</button>`:`<button class="pri" onclick="finish(true)">Finalizar</button>`)+`</div>`;
+}
+function go(n){i+=n;render()}
+function finish(ask){
+  if(ask){const n=A.filter(x=>x===null).length;if(n&&!confirm(`Há ${n} questão(ões) sem resposta. Finalizar mesmo assim?`))return}
+  clearInterval(tm);
+  const S={};
+  Q.forEach((q,k)=>{S[q.d]=S[q.d]||{c:0,n:0};S[q.d].n++;if(A[k]===q.a)S[q.d].c++});
+  const c=Object.values(S).reduce((x,s)=>x+s.c,0),p=Math.round(c/Q.length*100),ok=p>=MIN;
+  send({tipo:"resultado",nota:p+"%"});
+  const rows=Object.keys(S).map(d=>{const s=S[d],pc=Math.round(s.c/s.n*100);
+    return `<tr><td>${D[d]}</td><td>${s.c}/${s.n}</td><td>${pc}%</td><td class="${pc>=MIN?"ok":"bad"}">${pc>=MIN?"OK":"Estudar"}</td></tr>`}).join("");
+  const rev=Q.map((q,k)=>A[k]===q.a?"":`<div class="rev"><b>${k+1}. ${q.q}</b><br><span class="bad">Sua resposta: ${A[k]===null?"não respondida":q.o[A[k]]}</span><br><span class="ok">Correta: ${q.o[q.a]}</span></div>`).join("");
+  app.innerHTML=`<h1>Resultado</h1>
+  <p class="mut">Candidato: <b>${esc(U.nome)}</b> · ${esc(U.email)}</p>
+  <p class="score ${ok?"ok":"bad"}">${p}%</p>
+  <p><b>${ok?"Aprovado":"Reprovado"}</b> · ${c} de ${Q.length} acertos (mínimo: ${MIN}%)</p>
+  <h2>Desempenho por domínio</h2>
+  <table><tr><th>Domínio</th><th>Acertos</th><th>%</th><th>Situação</th></tr>${rows}</table>
+  <p class="mut">Domínios marcados como “Estudar” ficaram abaixo de ${MIN}%.</p>
+  <h2>Questões erradas</h2>${rev||"<p>Você acertou todas!</p>"}
+  <div class="nav"><button class="pri" onclick="start()">Refazer</button><button onclick="home()">Início</button></div>`;
+  window.scrollTo(0,0);
+}
+home();
+</script>
+</body>
+</html>

@@ -135,10 +135,10 @@ function home(){
   </form>`;
 }
 // Cole aqui a URL do seu Google Apps Script (veja o passo a passo). Vazio = não envia nada.
-const SHEET_URL="";
+const https://simulado-ai-practitioner-aif-c01.vercel.app="";
 function send(extra){
-  if(!SHEET_URL)return;
-  try{fetch(SHEET_URL,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({},U,extra))}).catch(()=>{})}catch(e){}
+  if(!https://simulado-ai-practitioner-aif-c01.vercel.app)return;
+  try{fetch(https://simulado-ai-practitioner-aif-c01.vercel.app,{method:"POST",mode:"no-cors",keepalive:true,headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(Object.assign({},U,extra))}).catch(()=>{})}catch(e){}
 }
 let U={};
 try{U=JSON.parse(localStorage.getItem("cad")||"{}")}catch(e){}

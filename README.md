@@ -84,7 +84,7 @@ Os cadastros e os resultados podem ser enviados para uma planilha do Google, sem
 4. Copie a URL gerada e cole na constante `SHEET_URL` do `index.html`:
 
    ```js
-   const SHEET_URL = "https://script.google.com/macros/s/SEU_ID/exec";
+   const SHEET_URL = "https://script.google.com/macros/s/AKfycbwEjqiQFbxPo3xN-kliFYKYny-sFNLipjuG_nzh2dDsXVOlSSDtrQfwxxAAOTvKNLgN/exec";
    ```
 
 5. Faça o commit. Enquanto `SHEET_URL` estiver vazio, nenhum dado é enviado.
